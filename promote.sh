@@ -166,7 +166,7 @@ fi
 # Trigger deployment via deploy.sh so frontend/backend pick up the new code
 echo ""
 print_info "Running deployment script for branch '$TARGET'..."
-if ./deploy.sh; then
+if ./deploy.sh --branch "$TARGET"; then
     print_success "Deploy script completed for $TARGET"
 else
     print_error "deploy.sh failed. Please review the logs above."

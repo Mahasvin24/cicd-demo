@@ -55,6 +55,7 @@ fi
 SKIP_RENDER=false
 SKIP_RENDER_DEPLOY=false
 SKIP_VERCEL_DEPLOY=false
+OVERRIDE_BRANCH=""
 
 # Parse optional arguments
 while [[ $# -gt 0 ]]; do
@@ -68,6 +69,14 @@ while [[ $# -gt 0 ]]; do
         --skip-vercel-deploy)
             SKIP_VERCEL_DEPLOY=true
             ;;
+        --branch)
+            if [ -z "$2" ]; then
+                print_error "Missing value for --branch"
+                exit 1
+            fi
+            OVERRIDE_BRANCH="$2"
+            shift
+            ;;
         *)
             print_warning "Unknown argument '$1' (ignored)."
             ;;
@@ -75,13 +84,18 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
-# Step 1: Detect current branch
-print_info "Detecting current git branch..."
-BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+# Step 1: Detect current branch (or use override)
+if [ -n "$OVERRIDE_BRANCH" ]; then
+    BRANCH="$OVERRIDE_BRANCH"
+    print_info "Using override branch: $BRANCH"
+else
+    print_info "Detecting current git branch..."
+    BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
-if [ $? -ne 0 ] || [ -z "$BRANCH" ]; then
-    print_error "Failed to detect git branch. Are you in a git repository?"
-    exit 1
+    if [ $? -ne 0 ] || [ -z "$BRANCH" ]; then
+        print_error "Failed to detect git branch. Are you in a git repository?"
+        exit 1
+    fi
 fi
 
 print_success "Current branch: $BRANCH"

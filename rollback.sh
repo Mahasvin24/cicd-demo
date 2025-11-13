@@ -158,7 +158,7 @@ fi
 # Trigger full deployment to ensure environments reflect rollback
 echo ""
 print_info "Running deployment script for branch '$ENVIRONMENT'..."
-if ./deploy.sh; then
+if ./deploy.sh --branch "$ENVIRONMENT"; then
     print_success "Deploy script completed for $ENVIRONMENT"
 else
     print_error "deploy.sh failed. Please review the logs above."
