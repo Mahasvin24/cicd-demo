@@ -1,39 +1,48 @@
 import type { CSSProperties } from "react";
 
-const headerStyle: CSSProperties = {
-  backgroundColor: "hsla(0, 0%, 0%, 0.62)",
-  color: "white",
-  padding: "1.5rem 1rem",
-  boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-  position: "fixed",
-  width: "100vw",
-  zIndex: 10,
+const footerStyle: CSSProperties = {
+  backgroundColor: "hsla(0, 0%, 0%, 0.8)",
+  color: "#fff",
+  padding: "2rem 1rem",
+  marginTop: "auto",
 };
 
 const containerStyle: CSSProperties = {
   maxWidth: "1200px",
   margin: "0 auto",
   padding: "0 1rem",
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.5rem",
+  textAlign: "center",
 };
 
-const titleStyle: CSSProperties = {
-  fontWeight: "bold",
-  marginTop: "0.5rem",
-  color: "white",
+const logoStyle: CSSProperties = {
+  margin: "0 auto",
+  height: "36px",
 };
 
-export default function Header() {
+const metaStyle: CSSProperties = {
+  fontSize: "0.9rem",
+  color: "rgba(255,255,255,0.75)",
+};
+
+export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer style={headerStyle}>
-      <div style={{...containerStyle, display: "flex", alignItems: "center", gap: "1rem"}}>
+    <footer style={footerStyle}>
+      <div style={containerStyle}>
         <img
           src="/industry_nav_logo.png"
-          alt="Logo"
-          style={{ height: "40px" }}
+          alt="ACM Industry logo"
+          style={logoStyle}
         />
-        <h1 style={{...titleStyle, marginTop: "0"}}>Demo Website</h1>
+        <strong>Demo Website</strong>
+        <span style={metaStyle}>
+          © {year} ACM Industry • Built for CI/CD training demos
+        </span>
       </div>
     </footer>
   );
 }
-
